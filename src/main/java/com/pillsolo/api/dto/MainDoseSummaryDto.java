@@ -14,4 +14,5 @@ public class MainDoseSummaryDto {
     private int dosePeriod;      // 총 복용일
     private int takenDays;       // 복용 완료된 일 수
     private int takenPercent;    // 퍼센트 (takenDays * 100 / dosePeriod)
+    private String description;
 }

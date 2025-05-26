@@ -39,7 +39,12 @@ public class PillService {
         return pillRepository.findById(id);
     }
 
+    @Transactional
     public void deletePill(Long id) {
+        // 1. 복용 기록 먼저 삭제
+        doseLogRepository.deleteAll(doseLogRepository.findByPillId(id));
+
+        // 2. 그 후 약 삭제
         pillRepository.deleteById(id);
     }
 
@@ -106,7 +111,8 @@ public class PillService {
                     pill.getDoseTime(),
                     dosePeriod,
                     takenCount,
-                    percent
+                    percent,
+                    pill.getDescription()
             );
         }).collect(Collectors.toList());
     }

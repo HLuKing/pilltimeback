@@ -41,6 +41,26 @@ public class PillController {
         Pill saved = pillService.savePill(pill);
         return ResponseEntity.ok(saved);
     }
+    // 💊 약 이름으로 검색
+    @GetMapping("/search")
+    public ResponseEntity<List<Pill>> searchByName(@RequestParam String query) {
+        return ResponseEntity.ok(pillService.searchByName(query));
+    }
+
+    // 🌐 외부 API 검색
+    @GetMapping("/external/search")
+    public List<DrugApiResponse.Item> externalSearch(@RequestParam String query) {
+        DrugApiResponse response = externalDrugApiService.search(query);
+        if (response == null || response.getBody() == null || response.getBody().getItems() == null) {
+            return Collections.emptyList();
+        }
+        return response.getBody().getItems();
+    }
+    @GetMapping("/main")
+    public ResponseEntity<List<MainDoseSummaryDto>> getMainDoseSummary() {
+        return ResponseEntity.ok(pillService.getMainDoseSummary());
+    }
+
 
     // 💊 약 상세 조회 by ID
     @GetMapping("/{id}")
@@ -57,21 +77,6 @@ public class PillController {
         return ResponseEntity.noContent().build();
     }
 
-    // 💊 약 이름으로 검색
-    @GetMapping("/search")
-    public ResponseEntity<List<Pill>> searchByName(@RequestParam String query) {
-        return ResponseEntity.ok(pillService.searchByName(query));
-    }
-
-    // 🌐 외부 API 검색
-    @GetMapping("/external/search")
-    public List<DrugApiResponse.Item> externalSearch(@RequestParam String query) {
-        DrugApiResponse response = externalDrugApiService.search(query);
-        if (response == null || response.getBody() == null || response.getBody().getItems() == null) {
-            return Collections.emptyList();
-        }
-        return response.getBody().getItems();
-    }
 
     // 🌐 외부 API에서 상세 정보 조회 (id 기반)
     @GetMapping("/{id}/details")
@@ -81,15 +86,11 @@ public class PillController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+
     @PutMapping("/{id}")
     public ResponseEntity<Pill> updatePill(@PathVariable Long id, @RequestBody Pill updatedPill) {
         Pill result = pillService.updatePill(id, updatedPill);
         return ResponseEntity.ok(result);
-    }
-
-    @GetMapping("/main")
-    public ResponseEntity<List<MainDoseSummaryDto>> getMainDoseSummary() {
-        return ResponseEntity.ok(pillService.getMainDoseSummary());
     }
 
     @GetMapping("/{id}/detail-view")
@@ -102,5 +103,6 @@ public class PillController {
         List<LocalDate> doseDates = doseLogService.getDoseDatesByPillId(pillId);
         return ResponseEntity.ok(doseDates);
     }
+
 
 }
