@@ -63,9 +63,11 @@ public class PillService {
                 DrugApiResponse.Item item = apiResponse.getBody().getItems().get(0);
 
                 return new MedicineDetailDto(
+                        pill.getId(),                             // ✅ ID 추가
                         pill.getName(),
                         pill.getDoseTime(),
-                        pill.getDosePeriod(), // String → int 변환
+                        pill.getDosePeriod(),
+                        pill.getDescription(),                    // ✅ 복용 설명 추가
                         item.getEfcyQesitm(),
                         item.getAtpnWarnQesitm(),
                         item.getAtpnQesitm(),
@@ -79,6 +81,7 @@ public class PillService {
             }
         });
     }
+
 
     @Transactional
     public Pill updatePill(Long id, Pill updatedPill) {
