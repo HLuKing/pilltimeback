@@ -91,8 +91,11 @@ public class PillService {
                     existing.setDescription(updatedPill.getDescription());
                     existing.setDoseTime(updatedPill.getDoseTime());
                     existing.setDosePeriod(updatedPill.getDosePeriod());
-                    existing.setExternalId(updatedPill.getExternalId());
                     existing.setExternal(updatedPill.isExternal());
+
+                    if (updatedPill.getExternalId() != null) {
+                        existing.setExternalId(updatedPill.getExternalId());
+                    }
                     return pillRepository.save(existing);
                 })
                 .orElseThrow(() -> new NoSuchElementException("약을 찾을 수 없습니다. ID: " + id));
