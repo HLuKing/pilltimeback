@@ -63,18 +63,20 @@ public class PillService {
                 DrugApiResponse.Item item = apiResponse.getBody().getItems().get(0);
 
                 return new MedicineDetailDto(
-                        pill.getId(),                             // ✅ ID 추가
+                        pill.getId(),
                         pill.getName(),
                         pill.getDoseTime(),
                         pill.getDosePeriod(),
-                        pill.getDescription(),                    // ✅ 복용 설명 추가
+                        pill.getDescription(),
                         item.getEfcyQesitm(),
                         item.getAtpnWarnQesitm(),
                         item.getAtpnQesitm(),
                         item.getIntrcQesitm(),
                         item.getSeQesitm(),
                         item.getDepositMethodQesitm(),
-                        item.getItemImage()
+                        item.getItemImage(),
+                        pill.getManufacturer(),
+                        item.getUseMethodQesitm()
                 );
             } else {
                 return null;
