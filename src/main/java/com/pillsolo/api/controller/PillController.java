@@ -3,6 +3,7 @@ package com.pillsolo.api.controller;
 import com.pillsolo.api.domain.Pill;
 import com.pillsolo.api.dto.MainDoseSummaryDto;
 import com.pillsolo.api.dto.MedicineDetailDto;
+import com.pillsolo.api.dto.PillCreateRequest;
 import com.pillsolo.api.dto.PillDetailResponse;
 import com.pillsolo.api.dto.api.DrugApiResponse;
 import com.pillsolo.api.service.DoseLogService;
@@ -37,8 +38,8 @@ public class PillController {
 
     // 💊 약 추가
     @PostMapping
-    public ResponseEntity<Pill> addPill(@RequestBody Pill pill) {
-        Pill saved = pillService.savePill(pill);
+    public ResponseEntity<Pill> addPill(@RequestBody PillCreateRequest request) {
+        Pill saved = pillService.savePill(request);
         return ResponseEntity.ok(saved);
     }
     // 💊 약 이름으로 검색
@@ -88,8 +89,8 @@ public class PillController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<Pill> updatePill(@PathVariable Long id, @RequestBody Pill updatedPill) {
-        Pill result = pillService.updatePill(id, updatedPill);
+    public ResponseEntity<Pill> updatePill(@PathVariable Long id, @RequestBody PillCreateRequest request) {
+        Pill result = pillService.updatePill(id, request);
         return ResponseEntity.ok(result);
     }
 

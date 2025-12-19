@@ -3,6 +3,8 @@ package com.pillsolo.api.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.*;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -24,7 +26,10 @@ public class Pill {
 
     private String name;
     private String description;
-    private String doseTime;
+
+    @OneToMany(mappedBy = "pill", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<PillSchedule> schedules = new ArrayList<>();
 
     @Column(nullable = false)
     private int dosePeriod;
@@ -36,4 +41,6 @@ public class Pill {
 
     @Column(name = "usage_info")
     private String usageInfo;
+
+    private String color;
 }
